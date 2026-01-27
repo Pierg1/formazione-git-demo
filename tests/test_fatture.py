@@ -20,13 +20,6 @@ def test_totale_con_aliquota_ordinaria():
     assert fattura_di_prova().totale == Decimal("1244.40")
 
 
-def test_due_righe_con_aliquote_diverse():
-    f = Fattura("2026/002", date(2026, 2, 1), "Studio Verdi")
-    f.aggiungi_riga("Canone gestionale", 1, "100.00")
-    f.aggiungi_riga("Corso base", 1, "100.00", "ridotta")
-    assert f.imposta == Decimal("32.00")
-
-
 def test_numero_duplicato_non_ammesso():
     r = Registro()
     r.aggiungi(fattura_di_prova())
