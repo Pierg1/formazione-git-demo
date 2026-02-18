@@ -6,6 +6,7 @@ ALIQUOTE = {
     "ordinaria": Decimal("22"),
     "ridotta": Decimal("10"),
     "minima": Decimal("4"),
+    "esente": Decimal("0"),
 }
 
 
@@ -16,6 +17,8 @@ def arrotonda(importo):
 
 def imposta(imponibile, aliquota="ordinaria"):
     """Restituisce l'imposta calcolata sull'imponibile."""
+    if aliquota not in ALIQUOTE:
+        raise ValueError("Aliquota non prevista: %s" % aliquota)
     percentuale = ALIQUOTE[aliquota]
     return arrotonda(Decimal(imponibile) * percentuale / Decimal("100"))
 
