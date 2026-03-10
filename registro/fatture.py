@@ -13,10 +13,16 @@ class Riga:
     quantita: int
     prezzo_unitario: Decimal
     aliquota: str = "ordinaria"
+    sconto: Decimal = Decimal("0")
+
+    @property
+    def lordo(self):
+        return arrotonda(Decimal(self.quantita) * Decimal(self.prezzo_unitario))
 
     @property
     def imponibile(self):
-        return arrotonda(Decimal(self.quantita) * Decimal(self.prezzo_unitario))
+        riduzione = self.lordo * Decimal(self.sconto) / Decimal("100")
+        return arrotonda(self.lordo - riduzione)
 
 
 @dataclass
@@ -26,8 +32,10 @@ class Fattura:
     cliente: str
     righe: list = field(default_factory=list)
 
-    def aggiungi_riga(self, descrizione, quantita, prezzo_unitario, aliquota="ordinaria"):
-        self.righe.append(Riga(descrizione, quantita, Decimal(prezzo_unitario), aliquota))
+    def aggiungi_riga(self, descrizione, quantita, prezzo_unitario, aliquota="ordinaria", sconto=0):
+        self.righe.append(
+            Riga(descrizione, quantita, Decimal(prezzo_unitario), aliquota, Decimal(sconto))
+        )
         return self
 
     @property

@@ -32,3 +32,9 @@ def test_ricerca_per_cliente():
     r.aggiungi(fattura_di_prova("2026/001", "Studio Bianchi"))
     r.aggiungi(fattura_di_prova("2026/002", "Studio Verdi"))
     assert len(r.per_cliente("Studio Bianchi")) == 1
+
+
+def test_sconto_di_riga():
+    f = Fattura("2026/004", date(2026, 3, 10), "Studio Bianchi")
+    f.aggiungi_riga("Canone gestionale", 10, "100.00", sconto=10)
+    assert f.imponibile == Decimal("900.00")
